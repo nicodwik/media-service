@@ -4,13 +4,14 @@ const isBase64 = require('is-base64');
 const base64Img = require('base64-img');
 const {Media} = require('../models');
 const fs = require('fs');
+const {HOSTNAME} = process.env
 
 /* GET users listing. */
 router.get('/', async (req, res) => {
   const media = await Media.findAll();
 
   const mappedData = media.map((m) => {
-    m.image = `${req.get('host')}/${m.image}`;
+    m.image = `${HOSTNAME}/${m.image}`;
     return m;
   })
   
@@ -47,7 +48,7 @@ router.post('/', function(req, res) {
       status: 'success',
       data: {
         id: media.id,
-        image: `${req.get('host')}/images/${filename}`
+        image: `${HOSTNAME}/images/${filename}`
       }
     });
   })
